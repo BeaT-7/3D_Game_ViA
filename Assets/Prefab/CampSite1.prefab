@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 1978182179107737271}
   m_Layer: 0
   m_Name: CampSite1
-  m_TagString: Untagged
+  m_TagString: CampSite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
