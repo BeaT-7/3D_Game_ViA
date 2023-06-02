@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class CharMovement : MonoBehaviour
 {
-    [SerializeField] Transform patrolCenter;
+    public Transform patrolCenter;
     [SerializeField] float patrolDistance; 
 
     private NavMeshAgent agent; 
@@ -33,6 +33,8 @@ public class CharMovement : MonoBehaviour
     private bool isLooking = false;
 
     private bool inChaseRoutine = false;
+
+    private bool startUpdate = false;
     private enum State
     {
         Idle,
@@ -45,31 +47,27 @@ public class CharMovement : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-
-        currentState = State.Patrolling;
+        StartCoroutine(Spawn());
     }
 
     void Update()
     {
-        if (currentState == State.Idle) Idle();
-        if (currentState == State.Patrolling) Patrolling();
-        if (currentState == State.Chasing)
+        if (startUpdate)
         {
-            agent.SetDestination(player.position);
-            if (!inChaseRoutine) StartCoroutine(ChaseRoutine());
+            if (currentState == State.Idle) Idle();
+            if (currentState == State.Patrolling) Patrolling();
+            if (currentState == State.Chasing)
+            {
+                agent.SetDestination(player.position);
+                if (!inChaseRoutine) StartCoroutine(ChaseRoutine());
+            }
+            if (currentState == State.Detecting) Detecting();
+            if (currentState == State.End) LostGame();
+
+
+            distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (currentState == State.Chasing && distanceToPlayer < 2.5f) currentState = State.End;
         }
-        if (currentState == State.Detecting) Detecting();
-        if (currentState == State.End) LostGame();
-
-
-        distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (currentState == State.Chasing && distanceToPlayer < 2.5f) currentState = State.End;
-           
-
-
     }
 
     private void Patrolling()
@@ -217,6 +215,19 @@ public class CharMovement : MonoBehaviour
         agent.speed = 2.5f;
         currentState = State.Idle;
         
+    }
+
+    private IEnumerator Spawn()
+    {
+        yield return new WaitForSeconds(2f);
+
+        player = GameObject.Find("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
+        currentState = State.Patrolling;
+
+        startUpdate = true;
     }
 
     private void OnTriggerEnter(Collider other)

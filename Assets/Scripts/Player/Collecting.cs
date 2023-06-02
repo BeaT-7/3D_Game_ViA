@@ -17,7 +17,6 @@ public class Collecting : MonoBehaviour
                 Collectable collectible = hit.collider.GetComponent<Collectable>();
                 if (collectible != null)
                 {
-                    Debug.Log(collectible.name);
                     collectible.Collect();
                 }
             }

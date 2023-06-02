@@ -9,6 +9,7 @@ TagManager:
   - CampPatrolAI
   - Collectible
   - ColSpawnPoint
+  - AI_Spawnpoint
   layers:
   - Default
   - TransparentFX

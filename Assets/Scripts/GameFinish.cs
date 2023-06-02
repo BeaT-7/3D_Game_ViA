@@ -39,9 +39,6 @@ public class GameFinish : MonoBehaviour
             Vector3 newPositionVehicle = Vector3.Lerp(startTransform.position, endTransform.position, t);
             Vector3 newPositionPlayer = Vector3.Lerp(startTransformPlayer, endTransformPlayer, t);
 
-            Debug.Log(newPositionPlayer);
-            Debug.Log(newPositionVehicle);
-
             player.transform.position = newPositionPlayer;
             vehicle.transform.position = newPositionVehicle;
         }
