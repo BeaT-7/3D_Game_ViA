@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class CharMovement : MonoBehaviour
 {
+    [SerializeField] TMP_Text endScreen;
+    [SerializeField] GameObject quitButton;
+    [SerializeField] GameObject restartButton;
+
     public Transform patrolCenter;
     [SerializeField] float patrolDistance; 
 
@@ -20,6 +25,7 @@ public class CharMovement : MonoBehaviour
 
     [SerializeField] float patrolDurationMin;
     [SerializeField] float patrolDurationMax;
+    [SerializeField] float timeToStartChase;
 
     private float randPatrolDuration;
     private float patrolTimer = 0f;
@@ -123,7 +129,7 @@ public class CharMovement : MonoBehaviour
         }
 
         startChaseTimer += Time.deltaTime;
-        if (startChaseTimer >= 2.5f)
+        if (startChaseTimer >= timeToStartChase)
         {
             isAnimationSet = false;
             isLooking = false;
@@ -153,9 +159,14 @@ public class CharMovement : MonoBehaviour
         playerRB.isKinematic = true;
         cameraScript.enabled = false;
 
-        // UI stuff Here - Text "You lost" / Button to restart or quit / ?time you played?
-        // placeholder console output
+        // UI stuff Here - Button to restart or quit /
         Debug.Log("You Lost");
+        string text = "You Lost!";
+        endScreen.text = text;
+        endScreen.color = Color.red;
+
+        quitButton.SetActive(true);
+        restartButton.SetActive(true);
 
         enabled = false;
     }

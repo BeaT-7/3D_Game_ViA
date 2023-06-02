@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] int itemsToCollect;
     private GameObject[] activeItems;
+
+    [SerializeField] TMP_Text itemTextField;
 
     void Start()
     {
@@ -100,6 +103,15 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    void setText()
+    {
+        string text = "";
+        foreach(GameObject item in activeItems)
+        {
+            if (item != null) text += item.name + "\n";
+        }
+        itemTextField.text = text;
+    }
     void SelectItems()
     {
         int i = 0;
@@ -116,6 +128,7 @@ public class SpawnManager : MonoBehaviour
                 if (i >= itemsToCollect) break;
             }
         }
+        setText();
     }
 
     public void itemCollected(GameObject item)
@@ -127,6 +140,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (activeItem != null) won = false;
         }
+        setText();
         if (won) gameWon();
     }
 
@@ -135,6 +149,8 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("All items collected, now escape!");
         BoxCollider finishBox = finish.GetComponent<BoxCollider>();
         finishBox.enabled = true;
+        itemTextField.text = "ESCAPE NOW!";
+        itemTextField.color = Color.green;
     }
 
     private void restartGame()

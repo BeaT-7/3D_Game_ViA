@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameFinish : MonoBehaviour
 {
+    [SerializeField] TMP_Text endScreen;
+    [SerializeField] TMP_Text timerText;
+    [SerializeField] GameObject quitButton;
+    [SerializeField] GameObject restartButton;
+
     public GameObject player;
     public GameObject vehicle;
     public Transform playerRotation;
@@ -21,8 +27,11 @@ public class GameFinish : MonoBehaviour
 
     private float elapsedTime = 0f;
 
+    float gameTime = 0f;
+
     void Start()
     {
+
         startTransformPlayer = new Vector3(startTransform.position.x - 0.5f, startTransform.position.y + 0.1f, startTransform.position.z + 0.3f);
         endTransformPlayer = new Vector3(endTransform.position.x - 0.5f, endTransform.position.y + 0.1f, endTransform.position.z + 0.3f);
     }
@@ -30,6 +39,7 @@ public class GameFinish : MonoBehaviour
 
     void Update()
     {
+        gameTime += Time.deltaTime;
         if (gameOver)
         {
             elapsedTime += Time.deltaTime;
@@ -47,6 +57,21 @@ public class GameFinish : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+
+            quitButton.SetActive(true);
+            restartButton.SetActive(true);
+
+            string text = "You Won!";
+            endScreen.text = text;
+            endScreen.color = Color.green;
+
+            int min = (int)gameTime / 60;
+            int sec = (int)gameTime % 60;
+            text = "It took you " + min.ToString("00") + ":" + sec.ToString("00") + "!";
+            timerText.text = text;
+
             playerRotation.transform.rotation = vehicle.transform.rotation;
             playerRB.isKinematic = true;
             cameraScript.enabled = false;

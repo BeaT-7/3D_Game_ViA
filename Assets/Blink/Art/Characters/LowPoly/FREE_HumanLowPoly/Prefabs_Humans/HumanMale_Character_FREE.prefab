@@ -1057,7 +1057,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782702501690864755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.1
   m_Speed: 2.5
@@ -1079,17 +1079,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782702501690864755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc18e94614567ab418bfcdd83b45ba04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endScreen: {fileID: 0}
+  quitButton: {fileID: 0}
+  restartButton: {fileID: 0}
   patrolCenter: {fileID: 0}
-  patrolDistance: 8
+  patrolDistance: 16
   playerRB: {fileID: 0}
   cameraScript: {fileID: 0}
   patrolDurationMin: 2
   patrolDurationMax: 5
+  timeToStartChase: 1.5
 --- !u!1 &1789272960074739661
 GameObject:
   m_ObjectHideFlags: 0
